@@ -1,0 +1,45 @@
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+#    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=mySQL@8080
+      - MYSQL_USER=root
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mysql
+    restart: unless-stopped
+#  mysql:
+#    container_name: phpmyadmin
+#    image: phpmyadmin/phpmyadmin
+#    environment:
+#      PMA_HOST: mysql
+#      PMA_PORT: 3306
+#      MYSQL_ROOT_PASSWORD: mySQL@8080
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - mysql
+#    networks:
+#      - mysql
+#    restart: unless-stopped
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - zipkin
+
+networks:
+  mysql:
+    driver: bridge
+  zipkin:
+    driver: bridge
+
+volumes:
+  mysql:
